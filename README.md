@@ -43,6 +43,10 @@ Update connection strings in:
 
 (`ConnectionStrings:DefaultConnection`, `ServiceBus:ConnectionString`, `BlobStorage:ConnectionString`)
 
+`ConnectionStrings:DefaultConnection` is preconfigured for a local SQL Server Express
+instance (`Server=SCI-LT-299\SQLEXPRESS;Database=reportgeneratordb;`) using Windows
+Authentication. Update the `Server` and `Database` values to match your environment.
+
 ## 3. Run the API
 
 ```
