@@ -11,7 +11,9 @@ IF OBJECT_ID('dbo.usp_GenerateEmployeeReport', 'P') IS NOT NULL
 GO
 
 CREATE PROCEDURE dbo.usp_GenerateEmployeeReport
-    @IsActiveOnly BIT = 1
+    @IsActiveOnly BIT = 1,
+    @StartDate DATE = NULL,
+    @EndDate DATE = NULL
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -45,6 +47,8 @@ BEGIN
     INNER JOIN dbo.Departments d ON d.DepartmentId = e.DepartmentId
     LEFT JOIN LatestSalary ls ON ls.EmployeeId = e.EmployeeId AND ls.rn = 1
     WHERE (@IsActiveOnly = 0 OR e.IsActive = 1)
+      AND (@StartDate IS NULL OR e.JoiningDate >= @StartDate)
+      AND (@EndDate IS NULL OR e.JoiningDate <= @EndDate)
     ORDER BY d.DepartmentName ASC, e.LastName ASC, e.FirstName ASC;
 END
 GO

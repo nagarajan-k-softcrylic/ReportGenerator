@@ -44,7 +44,11 @@ public class ReportProcessingService
             reportRequest.Status = ReportStatus.InProgress;
             await _reportRequestRepository.UpdateAsync(reportRequest, cancellationToken);
 
-            var rows = await _employeeReportRepository.GetEmployeeReportAsync(isActiveOnly: true, cancellationToken);
+            var rows = await _employeeReportRepository.GetEmployeeReportAsync(
+                isActiveOnly: true,
+                startDate: reportRequest.StartDate,
+                endDate: reportRequest.EndDate,
+                cancellationToken: cancellationToken);
 
             using var excelStream = _excelReportGenerator.Generate(rows);
 

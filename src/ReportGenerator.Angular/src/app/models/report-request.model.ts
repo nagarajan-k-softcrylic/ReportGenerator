@@ -4,6 +4,8 @@ export interface ReportRequest {
   requestedBy: string;
   requestedDate: string;
   status: 'Not Processed' | 'In Progress' | 'Completed' | 'Failed';
+  startDate?: string | null;
+  endDate?: string | null;
   failureReason?: string | null;
   blobUrl?: string | null;
   processedDate?: string | null;

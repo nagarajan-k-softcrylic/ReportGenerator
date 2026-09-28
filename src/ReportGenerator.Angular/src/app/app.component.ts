@@ -27,12 +27,14 @@ import { ReportRequest } from './models/report-request.model';
 })
 export class AppComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
-    'requestId', 'reportName', 'requestedBy', 'requestedDate', 'status', 'failureReason', 'download'
+    'requestId', 'reportName', 'requestedBy', 'requestedDate', 'status', 'startDate', 'endDate', 'failureReason', 'download'
   ];
 
   reportRequests: ReportRequest[] = [];
   reportName = '';
   requestedBy = '';
+  startDate = '';
+  endDate = '';
   isSubmitting = false;
   errorMessage = '';
 
@@ -63,14 +65,21 @@ export class AppComponent implements OnInit, OnDestroy {
       return;
     }
 
+    if (this.startDate && this.endDate && this.startDate > this.endDate) {
+      this.errorMessage = 'Start Date must be earlier than or equal to End Date.';
+      return;
+    }
+
     this.isSubmitting = true;
     this.errorMessage = '';
 
-    this.reportService.create(this.reportName.trim(), this.requestedBy.trim()).subscribe({
+    this.reportService.create(this.reportName.trim(), this.requestedBy.trim(), this.startDate, this.endDate).subscribe({
       next: (created) => {
         this.reportRequests = [created, ...this.reportRequests];
         this.reportName = '';
         this.requestedBy = '';
+        this.startDate = '';
+        this.endDate = '';
         this.isSubmitting = false;
       },
       error: (err) => {

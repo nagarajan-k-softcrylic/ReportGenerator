@@ -16,7 +16,7 @@ public class ReportsController : ControllerBase
         _mediator = mediator;
     }
 
-    public record CreateReportRequestBody(string ReportName, string RequestedBy);
+    public record CreateReportRequestBody(string ReportName, string RequestedBy, DateTime? StartDate = null, DateTime? EndDate = null);
 
     // POST /api/reports/request
     [HttpPost("request")]
@@ -27,7 +27,14 @@ public class ReportsController : ControllerBase
             return BadRequest("ReportName and RequestedBy are required.");
         }
 
-        var result = await _mediator.Send(new CreateReportRequestCommand(body.ReportName, body.RequestedBy), cancellationToken);
+        if (body.StartDate.HasValue && body.EndDate.HasValue && body.StartDate > body.EndDate)
+        {
+            return BadRequest("StartDate must be earlier than or equal to EndDate.");
+        }
+
+        var result = await _mediator.Send(
+            new CreateReportRequestCommand(body.ReportName, body.RequestedBy, body.StartDate, body.EndDate),
+            cancellationToken);
         return Ok(result);
     }
 

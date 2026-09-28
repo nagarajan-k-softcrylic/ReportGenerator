@@ -8,5 +8,9 @@ namespace ReportGenerator.Application.Interfaces;
 /// </summary>
 public interface IEmployeeReportRepository
 {
-    Task<List<EmployeeReportRow>> GetEmployeeReportAsync(bool isActiveOnly = true, CancellationToken cancellationToken = default);
+    Task<List<EmployeeReportRow>> GetEmployeeReportAsync(
+        bool isActiveOnly = true,
+        DateTime? startDate = null,
+        DateTime? endDate = null,
+        CancellationToken cancellationToken = default);
 }

@@ -11,6 +11,8 @@ public class ReportRequest
     public string RequestedBy { get; set; } = string.Empty;
     public DateTime RequestedDate { get; set; } = DateTime.UtcNow;
     public string Status { get; set; } = Domain.Enums.ReportStatus.NotProcessed;
+    public DateTime? StartDate { get; set; }
+    public DateTime? EndDate { get; set; }
     public string? FileName { get; set; }
     public string? BlobUrl { get; set; }
     public string? FailureReason { get; set; }

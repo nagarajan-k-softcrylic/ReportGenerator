@@ -14,8 +14,13 @@ export class ReportService {
     return this.http.get<ReportRequest[]>(this.baseUrl);
   }
 
-  create(reportName: string, requestedBy: string): Observable<ReportRequest> {
-    return this.http.post<ReportRequest>(`${this.baseUrl}/request`, { reportName, requestedBy });
+  create(reportName: string, requestedBy: string, startDate?: string | null, endDate?: string | null): Observable<ReportRequest> {
+    return this.http.post<ReportRequest>(`${this.baseUrl}/request`, {
+      reportName,
+      requestedBy,
+      startDate: startDate || null,
+      endDate: endDate || null
+    });
   }
 
   getDownloadUrl(id: string): string {

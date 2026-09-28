@@ -19,7 +19,11 @@ public class EmployeeReportRepository : IEmployeeReportRepository
             ?? throw new InvalidOperationException("DefaultConnection connection string is not configured.");
     }
 
-    public async Task<List<EmployeeReportRow>> GetEmployeeReportAsync(bool isActiveOnly = true, CancellationToken cancellationToken = default)
+    public async Task<List<EmployeeReportRow>> GetEmployeeReportAsync(
+        bool isActiveOnly = true,
+        DateTime? startDate = null,
+        DateTime? endDate = null,
+        CancellationToken cancellationToken = default)
     {
         var results = new List<EmployeeReportRow>();
 
@@ -29,6 +33,8 @@ public class EmployeeReportRepository : IEmployeeReportRepository
             CommandType = System.Data.CommandType.StoredProcedure
         };
         command.Parameters.AddWithValue("@IsActiveOnly", isActiveOnly);
+        command.Parameters.AddWithValue("@StartDate", (object?)startDate ?? DBNull.Value);
+        command.Parameters.AddWithValue("@EndDate", (object?)endDate ?? DBNull.Value);
 
         await connection.OpenAsync(cancellationToken);
         await using var reader = await command.ExecuteReaderAsync(cancellationToken);

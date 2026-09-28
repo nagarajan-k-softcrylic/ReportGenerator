@@ -27,6 +27,8 @@ public class GetReportRequestByIdQueryHandler : IRequestHandler<GetReportRequest
             RequestedBy = r.RequestedBy,
             RequestedDate = r.RequestedDate,
             Status = r.Status,
+            StartDate = r.StartDate,
+            EndDate = r.EndDate,
             FailureReason = r.FailureReason,
             BlobUrl = r.BlobUrl,
             ProcessedDate = r.ProcessedDate

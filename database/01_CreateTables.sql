@@ -17,6 +17,8 @@ CREATE TABLE dbo.ReportRequests
     RequestedBy     NVARCHAR(100)    NOT NULL,
     RequestedDate   DATETIME         NOT NULL DEFAULT GETUTCDATE(),
     Status          NVARCHAR(50)     NOT NULL DEFAULT 'Not Processed',
+    StartDate       DATE             NULL,
+    EndDate         DATE             NULL,
     FileName        NVARCHAR(500)    NULL,
     BlobUrl         NVARCHAR(MAX)    NULL,
     FailureReason   NVARCHAR(MAX)    NULL,

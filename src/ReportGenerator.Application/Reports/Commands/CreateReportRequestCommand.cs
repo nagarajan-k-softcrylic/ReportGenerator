@@ -6,7 +6,11 @@ using ReportGenerator.Domain.Enums;
 
 namespace ReportGenerator.Application.Reports.Commands;
 
-public record CreateReportRequestCommand(string ReportName, string RequestedBy) : IRequest<ReportRequestDto>;
+public record CreateReportRequestCommand(
+    string ReportName,
+    string RequestedBy,
+    DateTime? StartDate = null,
+    DateTime? EndDate = null) : IRequest<ReportRequestDto>;
 
 public class CreateReportRequestCommandHandler : IRequestHandler<CreateReportRequestCommand, ReportRequestDto>
 {
@@ -28,13 +32,21 @@ public class CreateReportRequestCommandHandler : IRequestHandler<CreateReportReq
             RequestedBy = request.RequestedBy,
             RequestedDate = DateTime.UtcNow,
             Status = ReportStatus.NotProcessed,
+            StartDate = request.StartDate,
+            EndDate = request.EndDate,
             CreatedDate = DateTime.UtcNow
         };
 
         await _repository.AddAsync(entity, cancellationToken);
 
         await _publisher.PublishReportRequestAsync(
-            new ReportRequestMessage { RequestId = entity.Id, ReportName = entity.ReportName },
+            new ReportRequestMessage
+            {
+                RequestId = entity.Id,
+                ReportName = entity.ReportName,
+                StartDate = entity.StartDate,
+                EndDate = entity.EndDate
+            },
             cancellationToken);
 
         return new ReportRequestDto
@@ -43,7 +55,9 @@ public class CreateReportRequestCommandHandler : IRequestHandler<CreateReportReq
             ReportName = entity.ReportName,
             RequestedBy = entity.RequestedBy,
             RequestedDate = entity.RequestedDate,
-            Status = entity.Status
+            Status = entity.Status,
+            StartDate = entity.StartDate,
+            EndDate = entity.EndDate
         };
     }
 }
