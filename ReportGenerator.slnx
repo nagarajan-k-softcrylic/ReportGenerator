@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ReportGenerator.API/ReportGenerator.API.csproj" />
+    <Project Path="src/ReportGenerator.Application/ReportGenerator.Application.csproj" />
+    <Project Path="src/ReportGenerator.Domain/ReportGenerator.Domain.csproj" />
+    <Project Path="src/ReportGenerator.Infrastructure/ReportGenerator.Infrastructure.csproj" />
+    <Project Path="src/ReportGenerator.Worker/ReportGenerator.Worker.csproj" />
+  </Folder>
+</Solution>
